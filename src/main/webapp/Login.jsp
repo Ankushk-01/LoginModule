@@ -49,7 +49,7 @@ div {
 	<div id="main">
 		<div id="sec">
 			<form action="login" method="post">
-				Email <input type="email" id="email" name="email" text="email" required="required"> <br>
+				Email <input type="email" id="email" name="email" text="email or username" required="required"> <br>
 				Password <input type="password" name="password" text="email" id="password" required="required"> <br>
 				<br>
 				<button type="submit" id="login">Login</button>
