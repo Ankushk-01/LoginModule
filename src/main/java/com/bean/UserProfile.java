@@ -1,6 +1,7 @@
 package com.bean;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class UserProfile {
 
@@ -11,8 +12,8 @@ public class UserProfile {
 	String phone_number;
 	Date date_of_birth;
 	Gender gender;
-	Date created_at;
-	Date updated_at;
+	Timestamp created_at;
+	Timestamp updated_at;
 	public int getProfile_id() {
 		return profile_id;
 	}
@@ -55,16 +56,16 @@ public class UserProfile {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	public Date getCreated_at() {
+	public Timestamp getCreated_at() {
 		return created_at;
 	}
-	public void setCreated_at(Date created_at) {
+	public void setCreated_at(Timestamp created_at) {
 		this.created_at = created_at;
 	}
-	public Date getUpdated_at() {
+	public Timestamp getUpdated_at() {
 		return updated_at;
 	}
-	public void setUpdated_at(Date updated_at) {
+	public void setUpdated_at(Timestamp updated_at) {
 		this.updated_at = updated_at;
 	}
 	
