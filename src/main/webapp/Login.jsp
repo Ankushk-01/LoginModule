@@ -3,48 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="./css/style.css">
 <meta charset="UTF-8">
 <title>Login Page</title>
-<style type="text/css">
-#main {
-	padding: none;
-	margin: none;
-}
-
- #email,#password{
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-#login {
-  width: 100%;
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-#login:hover {
-  background-color: #45a049;
-}
-
-div {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
-}
-</style>
 </head>
 <body>
-	<h1>Login page</h1>
+	<h1 id="heading">Login page</h1>
 
 	<div id="main">
 		<div id="sec">

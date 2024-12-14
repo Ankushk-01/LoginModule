@@ -1,0 +1,45 @@
+#main {
+	padding: none;
+	margin: none;
+}
+
+#heading {
+	color: black;
+	padding: none;
+	margin: none;
+	text-align: center;
+}
+
+#login, #sign-up {
+	color: white;
+	background-color: black;
+	align-content: center;
+	text-align: center;
+	border: none;
+	border-radius: 5px;
+	font-size: 24px;
+	font-family: Arial;
+	padding: 8px;
+	margin: 10px;
+	cursor: pointer;
+}
+
+#sec {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 20px;
+}
+
+#heading-div {
+	margin: 0;
+	padding: 0;
+	justify-content: center;
+	align-items: center;
+}
+
+#options {
+	font-size: 30px;
+	text-align: center;
+	font-family: "Arial";
+}
