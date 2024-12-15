@@ -5,13 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Sign Up Page</title>
+<link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 	<h1 id="heading">Sign Up page</h1>
-
-	int profile_id; int user_id; int role_id; String full_name; String
-	phone_number; Date date_of_birth; Gender gender; Timestamp created_at;
-	Timestamp updated_at;
 
 	<div id="main">
 		<div id="sec">
