@@ -69,5 +69,14 @@ public class UserProfile {
 		this.updated_at = updated_at;
 	}
 	
+	@Override
+	public String toString() {
+		return "UserProfile [profile_id=" + profile_id + ", user_id=" + user_id + ", role_id=" + role_id
+				+ ", full_name=" + full_name + ", phone_number=" + phone_number + ", date_of_birth=" + date_of_birth
+				+ ", gender=" + gender + ", created_at=" + created_at + ", updated_at=" + updated_at + "]";
+	}
+
+	
+	
 	 
 }
