@@ -7,14 +7,21 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpSession;
 
+import com.bean.UserProfile;
 import com.util.DataBaseManager;
 
 public class UsersDao {
 	
 	DataBaseManager db;
-	
+	Connection con;
 	public UsersDao(){
 		db = new DataBaseManager();
+		try {
+			con = db.getConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public String getUserdetails(String email,String password) {
@@ -23,11 +30,7 @@ public class UsersDao {
 	}
 
 	public Boolean userAuthernticate(String email, String password) {
-		Connection con = null;
-		
 		try {
-			con = db.getConnection();
-			
 			String query = "SELECT * FROM users WHERE email = ? AND password = ? ;";
 			
 			PreparedStatement stmt = con.prepareStatement(query);
@@ -51,6 +54,24 @@ public class UsersDao {
 			}
 		}
 	
+		return false;
+	}
+
+	public Boolean addUser(UserProfile user) {
+		try {
+			String query = "INERT INTO users (user_name,email,password,status) 	VALUES (?,?,?,?)";
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setString(1, user.getFull_name());
+			stmt.setString(2, user.getEmail());
+			stmt.setString(3, user.getPassword());
+			stmt.setString(4, "panding");
+			
+			int result = stmt.executeUpdate();
+			if(result >0)return true;
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 	

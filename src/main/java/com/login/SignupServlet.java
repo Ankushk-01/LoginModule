@@ -43,8 +43,8 @@ public class SignupServlet extends HttpServlet {
 		user.setEmail(email);
 		user.setPassword(password);
 		user.setCpassword(confirmPassword);
-		
 		System.out.println("user details: "+user.toString());
+		usersDao.addUser(user);
 		
 		doGet(request, response);
 	}
