@@ -78,10 +78,43 @@ public class UsersDao {
 	public Boolean addUserProfile(UserProfile user) {
 		
 		Boolean userAdded = addUser(user);
-		if(!userAdded) {
-			
+		long userId = 0;
+		if(userAdded) {
+			userId = getUserId(user.getEmail(),user.getPassword());
+		}else {
+			return false;
 		}
+		
+		Boolean roleAdded = addUserRole(userId,"user");
+		if()
 		return false;
+	}
+
+	private long getUserId(String email, String password) {
+		long user_id = 0;
+		try {
+			String query = "SELECT user_id FROM users WHERE email = ? AND password = ? ;";
+			
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setString(1, email);
+			stmt.setString(2, password);
+			
+			ResultSet result = stmt.executeQuery();
+			result.next();
+			if(result.next()) {
+				user_id = result.getLong(1);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return user_id;
+		}
+		return user_id;
+	}
+
+	private Boolean addUserRole(long user_id,String role) {
+		
+		return null;
 	}
 	
 	
