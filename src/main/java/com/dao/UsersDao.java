@@ -82,7 +82,7 @@ public class UsersDao {
 			return false;
 		}
 		try {
-			String query = "";
+			String query = "INSERT INTO user_profiles () VALUES ();";
 		} catch (Exception e) {
 			
 		}
