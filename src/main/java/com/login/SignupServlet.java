@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,9 +45,18 @@ public class SignupServlet extends HttpServlet {
 		user.setPassword(password);
 		user.setCpassword(confirmPassword);
 		System.out.println("user details: "+user.toString());
-		usersDao.addUserProfile(user);
+		Boolean userAdded = usersDao.addUserProfile(user);
 		
-		doGet(request, response);
+		RequestDispatcher dispathcher = null;
+		if(userAdded) {
+			request.setAttribute("authorized", true);
+			dispathcher = request.getRequestDispatcher("/welcome");
+			dispathcher.forward(request, response);
+		}
+		request.setAttribute("authorized", null);
+		dispathcher = request.getRequestDispatcher("/welcome");
+		dispathcher.forward(request, response);
+		
 	}
 	
 	

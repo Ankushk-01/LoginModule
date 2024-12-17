@@ -75,11 +75,13 @@ public class UsersDao {
 		return false;
 	}
 
-	public void addUserProfile(UserProfile user) {
+	public Boolean addUserProfile(UserProfile user) {
 		
-		
-		// TODO Auto-generated method stub
-		
+		Boolean userAdded = addUser(user);
+		if(!userAdded) {
+			
+		}
+		return false;
 	}
 	
 	
