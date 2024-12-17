@@ -56,7 +56,7 @@ public class UsersDao {
 	
 		return false;
 	}
-
+	
 	public Boolean addUser(UserProfile user) {
 		try {
 			String query = "INERT INTO users (user_name,email,password,status) 	VALUES (?,?,?,?)";
@@ -73,6 +73,13 @@ public class UsersDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public void addUserProfile(UserProfile user) {
+		
+		
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

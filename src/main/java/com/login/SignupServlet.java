@@ -44,7 +44,7 @@ public class SignupServlet extends HttpServlet {
 		user.setPassword(password);
 		user.setCpassword(confirmPassword);
 		System.out.println("user details: "+user.toString());
-		usersDao.addUser(user);
+		usersDao.addUserProfile(user);
 		
 		doGet(request, response);
 	}
