@@ -3,9 +3,6 @@ package com.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.servlet.http.HttpSession;
 
 import com.bean.UserProfile;
 import com.util.DataBaseManager;
@@ -30,36 +27,13 @@ public class UsersDao {
 	}
 
 	public Boolean userAuthernticate(String email, String password) {
-		try {
-			String query = "SELECT * FROM users WHERE email = ? AND password = ? ;";
-			
-			PreparedStatement stmt = con.prepareStatement(query);
-			stmt.setString(1, email);
-			stmt.setString(2, password);
-			
-			ResultSet result = stmt.executeQuery();
-			
-			if(result.next()) {
-				return true;
-			}
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		}
-	
-		return false;
+		 int result = getUserId(email, password);
+		 return result > 0 ? true : false;
 	}
 	
 	public Boolean addUser(UserProfile user) {
 		try {
-			String query = "INERT INTO users (user_name,email,password,status) 	VALUES (?,?,?,?)";
+			String query = "INERT INTO users (user_name,email,password,status) 	VALUES (?,?,?,?);";
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setString(1, user.getFull_name());
 			stmt.setString(2, user.getEmail());
@@ -74,11 +48,27 @@ public class UsersDao {
 		}
 		return false;
 	}
+	
+	private Boolean addUserRole(int user_id,String role) {
+		try {
+			String query = "INERT INTO roles (user_id,role_name) 	VALUES (?,?);";
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setInt(1, user_id);
+			stmt.setString(2, role);
+			int result = stmt.executeUpdate();
+			if(result >0)return true;
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+		}
 
 	public Boolean addUserProfile(UserProfile user) {
 		
 		Boolean userAdded = addUser(user);
-		long userId = 0;
+		int userId = 0;
+		int roleId = 0;
 		if(userAdded) {
 			userId = getUserId(user.getEmail(),user.getPassword());
 		}else {
@@ -86,12 +76,40 @@ public class UsersDao {
 		}
 		
 		Boolean roleAdded = addUserRole(userId,"user");
-		if()
+		if(roleAdded) {
+			roleId = getRoleId(userId);
+		}else {
+			return false;
+		}
+		try {
+			String query = "";
+		} catch (Exception e) {
+			
+		}
 		return false;
 	}
 
-	private long getUserId(String email, String password) {
-		long user_id = 0;
+	private int getRoleId(int userId) {
+		int role_id = 0;
+		try {
+			String query = "SELECT role_id FROM roles WHERE user_id = ? ;";
+			
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setInt(1, userId);		
+			ResultSet result = stmt.executeQuery();
+			if(result.next()) {
+				role_id = result.getInt("role_id");
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return role_id;
+		}
+		return role_id;
+	}
+
+	private int getUserId(String email, String password) {
+		int user_id = 0;
 		try {
 			String query = "SELECT user_id FROM users WHERE email = ? AND password = ? ;";
 			
@@ -100,9 +118,8 @@ public class UsersDao {
 			stmt.setString(2, password);
 			
 			ResultSet result = stmt.executeQuery();
-			result.next();
 			if(result.next()) {
-				user_id = result.getLong(1);
+				user_id = result.getInt("user_id");
 			}
 		}
 		catch(Exception e) {
@@ -110,11 +127,6 @@ public class UsersDao {
 			return user_id;
 		}
 		return user_id;
-	}
-
-	private Boolean addUserRole(long user_id,String role) {
-		
-		return null;
 	}
 	
 	
