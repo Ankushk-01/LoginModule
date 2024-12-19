@@ -112,7 +112,6 @@ public class UsersDao {
 		int user_id = 0;
 		try {
 			String query = "SELECT user_id FROM users WHERE email = ? AND password = ? ;";
-			
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setString(1, email);
 			stmt.setString(2, password);

@@ -33,7 +33,7 @@ public class SignupServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String confirmPassword = request.getParameter("confirm-password");
 		String gender = request.getParameter("gender");
-		
+		String role = request.getParameter("role");
 		UserProfile user = new UserProfile();
 		user.setCreated_at(Timestamp.from(Instant.now()));
 		user.setDate_of_birth(Date.valueOf(date));
@@ -44,6 +44,7 @@ public class SignupServlet extends HttpServlet {
 		user.setEmail(email);
 		user.setPassword(password);
 		user.setCpassword(confirmPassword);
+		user.setRole(role);
 		System.out.println("user details: "+user.toString());
 		Boolean userAdded = usersDao.addUserProfile(user);
 		
