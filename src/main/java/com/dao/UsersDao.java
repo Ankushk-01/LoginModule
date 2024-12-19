@@ -50,6 +50,9 @@ public class UsersDao {
 	}
 	
 	private Boolean addUserRole(int user_id,String role) {
+		if(role == null) {
+			role = "user";
+		}
 		try {
 			String query = "INERT INTO roles (user_id,role_name) 	VALUES (?,?);";
 			PreparedStatement stmt = con.prepareStatement(query);
@@ -75,14 +78,31 @@ public class UsersDao {
 			return false;
 		}
 		
-		Boolean roleAdded = addUserRole(userId,"user");
+		Boolean roleAdded = addUserRole(userId,user.getRole());
 		if(roleAdded) {
 			roleId = getRoleId(userId);
 		}else {
 			return false;
 		}
 		try {
-			String query = "INSERT INTO user_profiles () VALUES ();";
+			String query = "INSERT INTO user_profiles (user_id, role_id"
+					+ "full_name, phone_number, date_of_birth, gender, created_at, updated_at, email, password, cpassword) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+			
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setInt(1, userId);
+			stmt.setInt(2, roleId);
+			stmt.setString(3, user.getFull_name());
+			stmt.setString(4, user.getPhone_number());
+			stmt.setDate(5, user.getDate_of_birth());
+			stmt.setString(6, user.getGender().getValue());
+			stmt.setTimestamp(7, user.getCreated_at());
+			stmt.setTimestamp(8, user.getUpdated_at());
+			stmt.setString(9, user.getEmail());
+			stmt.setString(10, user.getPassword());
+			stmt.setString(11, user.getCpassword());
+			
+			int result = stmt.executeUpdate();
+			if(result > 0) return true;
 		} catch (Exception e) {
 			
 		}
