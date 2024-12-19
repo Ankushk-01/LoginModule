@@ -33,7 +33,7 @@ public class UsersDao {
 	
 	public Boolean addUser(UserProfile user) {
 		try {
-			String query = "INERT INTO users (user_name,email,password,status) 	VALUES (?,?,?,?);";
+			String query = "INSERT INTO users (user_name,email,password,status) VALUES (?,?,?,?);";
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setString(1, user.getFull_name());
 			stmt.setString(2, user.getEmail());
@@ -45,6 +45,7 @@ public class UsersDao {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 		return false;
 	}
@@ -54,7 +55,7 @@ public class UsersDao {
 			role = "user";
 		}
 		try {
-			String query = "INERT INTO roles (user_id,role_name) 	VALUES (?,?);";
+			String query = "INSERT INTO roles (user_id,role_name) VALUES (?,?);";
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setInt(1, user_id);
 			stmt.setString(2, role);
@@ -63,6 +64,7 @@ public class UsersDao {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 		return false;
 		}
@@ -74,6 +76,7 @@ public class UsersDao {
 		int roleId = 0;
 		if(userAdded) {
 			userId = getUserId(user.getEmail(),user.getPassword());
+			System.out.println("user id : "+userId);
 		}else {
 			return false;
 		}
@@ -81,6 +84,7 @@ public class UsersDao {
 		Boolean roleAdded = addUserRole(userId,user.getRole());
 		if(roleAdded) {
 			roleId = getRoleId(userId);
+			System.out.println("role id : "+roleId);
 		}else {
 			return false;
 		}
@@ -104,7 +108,8 @@ public class UsersDao {
 			int result = stmt.executeUpdate();
 			if(result > 0) return true;
 		} catch (Exception e) {
-			
+			e.printStackTrace();
+			return false;
 		}
 		return false;
 	}

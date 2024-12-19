@@ -12,7 +12,7 @@
 
 	<div id="main">
 		<div id="sec">
-			<form action="signup" method="post">
+			<form action="sign-up" method="post">
 				Name <input type="text" id="name" name="name" required="required">
 				<br> Phone number <input type="number" id="number"
 					name="number"> <br> Date of Birth <input type="date"

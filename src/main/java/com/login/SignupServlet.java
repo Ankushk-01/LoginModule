@@ -38,7 +38,7 @@ public class SignupServlet extends HttpServlet {
 		user.setCreated_at(Timestamp.from(Instant.now()));
 		user.setDate_of_birth(Date.valueOf(date));
 		user.setFull_name(name);
-		user.setGender(Gender.valueOf(gender));
+		user.setGender(Gender.valueOf(gender.toUpperCase()));
 		user.setPhone_number(number);
 		user.setUpdated_at(Timestamp.from(Instant.now()));
 		user.setEmail(email);
