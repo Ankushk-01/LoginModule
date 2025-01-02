@@ -25,13 +25,15 @@ public class SignupServlet extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Fetch data from the jsp file
 		String name = request.getParameter("name");
 		String number = request.getParameter("number");
 		String date = request.getParameter("date");
 		System.out.println("date : "+date);
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		String confirmPassword = request.getParameter("confirm-password");
+		String confirmPassword = request.getParameter("password2");
+		System.out.println("confirmPassword : "+confirmPassword);
 		String gender = request.getParameter("gender");
 		String role = request.getParameter("role");
 		UserProfile user = new UserProfile();
@@ -45,18 +47,21 @@ public class SignupServlet extends HttpServlet {
 		user.setPassword(password);
 		user.setCpassword(confirmPassword);
 		user.setRole(role);
+		// echo the data passed by the client
 		System.out.println("user details: "+user.toString());
-		Boolean userAdded = usersDao.addUserProfile(user);
 		
-		RequestDispatcher dispathcher = null;
-		if(userAdded) {
-			request.setAttribute("authorized", true);
-			dispathcher = request.getRequestDispatcher("/welcome");
-			dispathcher.forward(request, response);
-		}
-		request.setAttribute("authorized", null);
-		dispathcher = request.getRequestDispatcher("/welcome");
-		dispathcher.forward(request, response);
+		// save the data to the database
+		Boolean userAdded = usersDao.addUserProfile(user);
+		response.getWriter().println("sucess");
+//		RequestDispatcher dispathcher = null;
+//		if(userAdded) {
+//			request.setAttribute("authorized", true);
+//			dispathcher = request.getRequestDispatcher("/welcome");
+//			dispathcher.forward(request, response);
+//		}
+//		request.setAttribute("authorized", null);
+//		dispathcher = request.getRequestDispatcher("/welcome");
+//		dispathcher.forward(request, response);
 		
 	}
 	

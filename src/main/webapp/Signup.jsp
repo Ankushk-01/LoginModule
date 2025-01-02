@@ -20,7 +20,7 @@
 					id="email" name="email" required="required"> <br>
 				Password <input type="password" name="password" id="password"
 					required="required"> <br> Confirm Password <input
-					type="password" name="password" id="confirm-password" required="required">
+					type="password" name="password" id="password2" required="required">
 				<br> <label for="gender">Gender:</label> <select name="gender"
 					id="gender">
 					<option value="male">Male</option>

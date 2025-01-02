@@ -89,7 +89,7 @@ public class UsersDao {
 			return false;
 		}
 		try {
-			String query = "INSERT INTO user_profiles (user_id, role_id"
+			String query = "INSERT INTO user_profiles (user_id, role_id,"
 					+ "full_name, phone_number, date_of_birth, gender, created_at, updated_at, email, password, cpassword) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
 			
 			PreparedStatement stmt = con.prepareStatement(query);
@@ -104,14 +104,15 @@ public class UsersDao {
 			stmt.setString(9, user.getEmail());
 			stmt.setString(10, user.getPassword());
 			stmt.setString(11, user.getCpassword());
-			
-			int result = stmt.executeUpdate();
-			if(result > 0) return true;
+			System.out.println("query : "+stmt.toString());
+			return true;
+//			int result = stmt.executeUpdate();
+//			if(result > 0) return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		return false;
+//		return false;
 	}
 
 	private int getRoleId(int userId) {
