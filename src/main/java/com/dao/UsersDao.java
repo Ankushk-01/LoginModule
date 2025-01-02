@@ -8,29 +8,30 @@ import com.bean.UserProfile;
 import com.util.DataBaseManager;
 
 public class UsersDao {
-	
+
 	DataBaseManager db;
 	Connection con;
-	public UsersDao(){
+
+	public UsersDao() {
 		db = new DataBaseManager();
 		try {
 			con = db.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	public String getUserdetails(String email,String password) {
+
+	public String getUserdetails(String email, String password) {
 		return "";
-		
+
 	}
 
 	public Boolean userAuthernticate(String email, String password) {
-		 int result = getUserId(email, password);
-		 return result > 0 ? true : false;
+		int result = getUserId(email, password);
+		return result > 0 ? true : false;
 	}
-	
+
 	public Boolean addUser(UserProfile user) {
 		try {
 			String query = "INSERT INTO users (user_name,email,password,status) VALUES (?,?,?,?);";
@@ -39,19 +40,20 @@ public class UsersDao {
 			stmt.setString(2, user.getEmail());
 			stmt.setString(3, user.getPassword());
 			stmt.setString(4, "panding");
-			
+
 			int result = stmt.executeUpdate();
-			if(result >0)return true;
-			
-		}catch(Exception e) {
+			if (result > 0)
+				return true;
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 		return false;
 	}
-	
-	private Boolean addUserRole(int user_id,String role) {
-		if(role == null) {
+
+	private Boolean addUserRole(int user_id, String role) {
+		if (role == null) {
 			role = "user";
 		}
 		try {
@@ -60,38 +62,39 @@ public class UsersDao {
 			stmt.setInt(1, user_id);
 			stmt.setString(2, role);
 			int result = stmt.executeUpdate();
-			if(result >0)return true;
-			
-		}catch(Exception e) {
+			if (result > 0)
+				return true;
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 		return false;
-		}
+	}
 
 	public Boolean addUserProfile(UserProfile user) {
-		
-		Boolean userAdded = addUser(user);
+
+		Boolean userAdded = addUser(user); // add the user in the database
 		int userId = 0;
 		int roleId = 0;
-		if(userAdded) {
-			userId = getUserId(user.getEmail(),user.getPassword());
-			System.out.println("user id : "+userId);
-		}else {
+		if (userAdded) {
+			userId = getUserId(user.getEmail(), user.getPassword());
+			System.out.println("user id : " + userId);
+		} else {
 			return false;
 		}
-		
-		Boolean roleAdded = addUserRole(userId,user.getRole());
-		if(roleAdded) {
-			roleId = getRoleId(userId);
-			System.out.println("role id : "+roleId);
-		}else {
+
+		Boolean roleAdded = addUserRole(userId, user.getRole());
+		if (roleAdded) {
+			roleId = getRoleId(userId); // role of the user is stored
+			System.out.println("role id : " + roleId);
+		} else {
 			return false;
 		}
 		try {
 			String query = "INSERT INTO user_profiles (user_id, role_id,"
 					+ "full_name, phone_number, date_of_birth, gender, created_at, updated_at, email, password, cpassword) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
-			
+
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setInt(1, userId);
 			stmt.setInt(2, roleId);
@@ -104,30 +107,60 @@ public class UsersDao {
 			stmt.setString(9, user.getEmail());
 			stmt.setString(10, user.getPassword());
 			stmt.setString(11, user.getCpassword());
-			System.out.println("query : "+stmt.toString());
-			return true;
-//			int result = stmt.executeUpdate();
-//			if(result > 0) return true;
+			System.out.println("query : " + stmt.toString());
+			int result = stmt.executeUpdate();
+			if (result > 0)
+				return true;
 		} catch (Exception e) {
+			removeUserRole(roleId);
+			removeUser(userId);
 			e.printStackTrace();
 			return false;
 		}
-//		return false;
+		return false;
+	}
+
+	private void removeUserRole(int roleId) {
+		String query = "DELETE FROM roles WHERE role_id = ?;";
+
+		try {
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setInt(1, roleId);
+			stmt.executeUpdate();
+			System.out.println("role deleted");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void removeUser(int userId) {
+
+		String query = "DELETE FROM users WHERE user_id = ?;";
+
+		try {
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setInt(1, userId);
+			stmt.executeUpdate();
+			System.out.println("user deleted");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	private int getRoleId(int userId) {
 		int role_id = 0;
 		try {
 			String query = "SELECT role_id FROM roles WHERE user_id = ? ;";
-			
+
 			PreparedStatement stmt = con.prepareStatement(query);
-			stmt.setInt(1, userId);		
+			stmt.setInt(1, userId);
 			ResultSet result = stmt.executeQuery();
-			if(result.next()) {
+			if (result.next()) {
 				role_id = result.getInt("role_id");
 			}
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return role_id;
 		}
@@ -141,18 +174,16 @@ public class UsersDao {
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.setString(1, email);
 			stmt.setString(2, password);
-			
+
 			ResultSet result = stmt.executeQuery();
-			if(result.next()) {
+			if (result.next()) {
 				user_id = result.getInt("user_id");
 			}
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return user_id;
 		}
 		return user_id;
 	}
-	
-	
+
 }
