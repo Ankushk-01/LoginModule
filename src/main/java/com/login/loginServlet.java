@@ -47,6 +47,7 @@ public class loginServlet extends HttpServlet {
     	
     	if(authorized) {
     		try {
+    			request.setAttribute("authorized", authorized);
     			dispathcher = request.getRequestDispatcher("/welcome");
     			dispathcher.forward(request, response);
 			} catch (Exception e) {

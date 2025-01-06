@@ -20,11 +20,12 @@ public class WelcomeServlet extends HttpServlet {
 		String authorized = (String)request.getAttribute("authorized");
 		System.out.println("authorized : "+authorized);
 		RequestDispatcher dispatcher = null;
-		if(authorized == null) {
-			dispatcher = request.getRequestDispatcher("/login");
-			dispatcher.forward(request, response);
-		}
-		response.getWriter().append("Welcome Page");
+//		if(authorized == null) {
+//			dispatcher = request.getRequestDispatcher("/login");
+//			dispatcher.forward(request, response);
+//		}
+		dispatcher = request.getRequestDispatcher("welcome.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }
