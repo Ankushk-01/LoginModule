@@ -52,16 +52,20 @@ public class SignupServlet extends HttpServlet {
 		
 		// save the data to the database
 		Boolean userAdded = usersDao.addUserProfile(user);
-		response.getWriter().println("sucess");
-//		RequestDispatcher dispathcher = null;
-//		if(userAdded) {
-//			request.setAttribute("authorized", true);
-//			dispathcher = request.getRequestDispatcher("/welcome");
-//			dispathcher.forward(request, response);
-//		}
-//		request.setAttribute("authorized", null);
-//		dispathcher = request.getRequestDispatcher("/welcome");
-//		dispathcher.forward(request, response);
+//		response.getWriter().println("sucess");
+		RequestDispatcher dispathcher = null;
+		if(userAdded) {
+			request.setAttribute("authorized", true);
+			dispathcher = request.getRequestDispatcher("/welcome");
+			dispathcher.forward(request, response);
+		}
+		request.setAttribute("authorized", null);
+		dispathcher = request.getRequestDispatcher("error.jsp");
+		try {
+			dispathcher.forward(request, response);
+		}catch(IOException | ServletException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

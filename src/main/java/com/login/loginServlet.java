@@ -17,54 +17,58 @@ import com.dao.UsersDao;
 
 public class loginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	UsersDao usersDao;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public loginServlet() {
-        super();
-        usersDao = new UsersDao();
-    }
 
-    @Override
-	public void service( HttpServletRequest request, HttpServletResponse response ) {
-    	RequestDispatcher dispathcher;
-    	String email = request.getParameter("email");
-    	String password = request.getParameter("password");
-    	
-    	if(isEmpty(email) || isEmpty(password)) {
-    		request.setAttribute("error", "Email or password is null");
-    		dispathcher = request.getRequestDispatcher("error.jsp");
-    		try {
-    			dispathcher.forward(request, response);
-    		}catch(IOException | ServletException e) {
-    			e.printStackTrace();
-    		}			
-    	}
-    	
-    	Boolean authorized = usersDao.userAuthernticate(email,password);
-    	
-    	if(authorized) {
-    		try {
-    			request.setAttribute("authorized", authorized);
-    			dispathcher = request.getRequestDispatcher("/welcome");
-    			dispathcher.forward(request, response);
+	UsersDao usersDao;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public loginServlet() {
+		super();
+		usersDao = new UsersDao();
+	}
+
+	@Override
+	public void service(HttpServletRequest request, HttpServletResponse response) {
+		RequestDispatcher dispathcher;
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+
+		if (isEmpty(email) || isEmpty(password)) {
+			request.setAttribute("error", "Email or password is null");
+			dispathcher = request.getRequestDispatcher("error.jsp");
+			try {
+				dispathcher.forward(request, response);
+			} catch (IOException | ServletException e) {
+				e.printStackTrace();
+			}
+		}
+
+		Boolean authorized = usersDao.userAuthernticate(email, password);
+
+		if (authorized) {
+			try {
+				request.setAttribute("authorized", authorized);
+				dispathcher = request.getRequestDispatcher("/welcome");
+				dispathcher.forward(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-    	}
-    	
-    	
-    	
-    	
-	
+		} else {
+			dispathcher = request.getRequestDispatcher("error.jsp");
+			try {
+				dispathcher.forward(request, response);
+			} catch (IOException | ServletException e) {
+				e.printStackTrace();
+			}
 
-    }
-    
-    public Boolean isEmpty(String value) {
-    	if(value == null || value.length() == 0 || value.isEmpty()) return true ;
-    	return false;
-    }
+		}
+	}
+
+	public Boolean isEmpty(String value) {
+		if (value == null || value.length() == 0 || value.isEmpty())
+			return true;
+		return false;
+	}
 
 }
